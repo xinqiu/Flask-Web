@@ -7,4 +7,4 @@ env:
 install: "pip install -r requirements.txt"
 
 script:
-  - nosetests hello.py
+  - python hello.py
