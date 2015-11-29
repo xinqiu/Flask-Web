@@ -2,7 +2,7 @@ language: python
 python:
   - "2.7"
 env:
-  - FLASK=0.10.1
+  - FLASK_VERSION=0.10.1
 
 script:
   - python hello.py
