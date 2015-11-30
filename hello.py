@@ -4,6 +4,7 @@ from flask.ext.moment import Moment
 from flask.ext.wtf import Form
 from flask.ext.script import Shell, Manager
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.migrate import Migrate, MigrateCommand
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from datetime import datetime
@@ -23,6 +24,8 @@ manager = Manager(app)
 db = SQLAlchemy(app)
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+migrate = Migrate(app, db)
+manager.add_command('db', MigrateCommand)
 
 
 class Role(db.Model):
