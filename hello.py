@@ -22,14 +22,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' \
                                         + os.path.join(basedir,'data.sqlite')
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 track_modifications = app.config.setdefault('SQLALCHEMY_TRACK_MODIFICATIONS', True)
-app.config['MAIL_SERVER'] = 'smtp.yeah.net'
-app.config['MAIL_PORT'] = 25
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_SERVER'] = 'smtp.qq.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = '422296631'
+app.config['MAIL_PASSWORD'] = 'cvyojlghmekacbdg'
 app.config['FLASKY_MAIL_SUBJECT_PREFIX'] = '[Flasky]'
-app.config['FLASKY_MAIL_SENDER'] = 'Flasky Admin <flasky@example.com>'
-app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
+app.config['FLASKY_MAIL_SENDER'] = 'Flasky Admin <422296631@qq.com>'
+app.config['FLASKY_ADMIN'] = '422296631@qq.com'
 
 manager = Manager(app)
 db = SQLAlchemy(app)
@@ -113,12 +114,12 @@ def send_email(to, subject, template, **kwargs):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('/templates/404.html'), 404
 
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    render_template('500.html'), 500
+    render_template('/templates/500.html'), 500
 
 
 if __name__ == '__main__':
