@@ -10,7 +10,7 @@ class Permission:
     COMMENT = 0x02
     WRITE_ARTICLES = 0x04
     MODERATE_COMMENTS = 0x08
-    ADMINSITER = 0x80
+    ADMINISITER = 0x80
 
 
 class Role(db.Model):
@@ -141,7 +141,7 @@ class User(UserMixin, db.Model):
                (self.role.permissions & permissions) == permissions
 
     def is_administrator(self):
-        return self.can(Permission.ADMINSITER)
+        return self.can(Permission.ADMINISITER)
 
     def ping(self):
         self.last_seen = datetime.utcnow()
