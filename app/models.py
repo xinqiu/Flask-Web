@@ -105,6 +105,14 @@ class User(UserMixin, db.Model):
             except IntegrityError:
                 db.session.rollback()
 
+    @staticmethod
+    def add_self_follows():
+        for user in User.query.all():
+            if not user.is_following(user):
+                user.follow(user)
+                db.session.add(user)
+                db.session.commit()
+
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
@@ -115,6 +123,7 @@ class User(UserMixin, db.Model):
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = hashlib.md5(
                 self.email.encode('utf-8')).hexdigest()
+        self.followed.append(Follow(followed=self))
 
 
     def __repr__(self):
@@ -209,13 +218,13 @@ class User(UserMixin, db.Model):
 
     def follow(self, user):
         if not self.is_following(user):
-            f = Follow(followed=user)
-            self.followed.append(f)
+            f = Follow(follower=self, followed=user)
+            db.session.add(f)
 
     def unfollow(self, user):
         f = self.followed.filter_by(followed_id=user.id).first()
         if f:
-            self.followed.remove(f)
+            db.session.delete(f)
 
     def is_following(self, user):
         return self.followed.filter_by(
@@ -224,6 +233,11 @@ class User(UserMixin, db.Model):
     def is_followed_by(self, user):
         return self.followers.filter_by(
             follower_id=user.id).first() is not None
+
+    @property
+    def followed_posts(self):
+        return Post.query.join(Follow, Follow.followed_id == Post.author_id)\
+            .filter(Follow.follower_id == self.id)
 
 
 class AnonymousUser(AnonymousUserMixin):
