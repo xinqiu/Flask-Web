@@ -209,9 +209,9 @@ class User(UserMixin, db.Model):
 
     def gravatar(self, size=100, default='identicon', rating='g'):
         if request.is_secure:
-            url = 'https://secure.gravatar.com/avatar'
+            url = 'https://gravatar.eqoe.cn/avatar'
         else:
-            url = 'http://www.gravatar.com/avatar'
+            url = 'http://gravatar.eqoe.cn/avatar'
         hash = self.avatar_hash or hashlib.md5(
             self.email.encode('utf-8')).hexdigest()
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
@@ -300,6 +300,7 @@ class Comment(db.Model):
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    disabled = db.Column(db.Boolean)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
