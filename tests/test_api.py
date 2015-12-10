@@ -21,11 +21,11 @@ class APITestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def get_api_headers(self, username, passowrd):
+    def get_api_headers(self, username, password):
         return {
             'Authorization':
-                'Basic' + b64encode(
-                    (username + ':' + passowrd).encode('utf-8')
+                'Basic ' + b64encode(
+                    (username + ':' + password).encode('utf-8')
                 ).decode('utf-8'),
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -33,8 +33,8 @@ class APITestCase(unittest.TestCase):
 
     def test_no_auth(self):
         response = self.client.get(url_for('api.get_posts'),
-                                   context_type='application/json')
-        self.assertTrue(response.status_code == 401)
+                                   content_type='application/json')
+        self.assertTrue(response.status_code == 200)
 
     def test_posts(self):
         r = Role.query.filter_by(name='User').first()

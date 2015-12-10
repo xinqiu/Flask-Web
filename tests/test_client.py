@@ -37,18 +37,16 @@ class FlaskClientTestCase(unittest.TestCase):
             'email': 'john@example.com',
             'password': 'cat'
         }, follow_redirects=True)
-        data = response.get_data(as_text=True)
-        self.assertTrue(re.search('Hello,\s+john', data))
-        self.assertTrue('You have not confirmed your account yet' in data)
+        self.assertTrue(re.search(b'Hello,\s+john!', response.data))
+        self.assertTrue(
+            b'You have not confirmed your account yet' in response.data)
 
         user = User.query.filter_by(email='john@example.com').first()
         token = user.generate_confirmation_token()
         response = self.client.get(url_for('auth.confirm', token=token),
                                    follow_redirects=True)
-        data = response.get_data(as_text=True)
-        self.assertTrue('You have confirmed your account' in data)
+        self.assertTrue(
+            b'You have confirmed your account' in response.data)
 
-        response = self.client.get(url_for('auth.logout'),
-                                   follow_redirects=True)
-        data = response.get_data(as_text=True)
-        self.assertTrue('You have been logged out' in data)
+        response = self.client.get(url_for('auth.logout'), follow_redirects=True)
+        self.assertTrue(b'You have been logged out' in response.data)
