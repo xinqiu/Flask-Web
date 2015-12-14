@@ -53,5 +53,15 @@ def profile(length=25, profile_dir=None):
     app.run()
 
 
+@manager.command
+def deploy():
+    from flask.ext.migrate import upgrade
+    from app.models import Role, User
+
+    upgrade()
+
+    Role.insert_roles()
+    User.add_self_follows()
+
 if __name__ == '__main__':
     manager.run()
