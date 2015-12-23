@@ -1,3 +1,33 @@
+.navbar-custom {
+    background-color: #63ddbe;
+    color:#ffffff;
+    border-radius:0;
+}
+  
+.navbar-custom .navbar-nav > li > a {
+    color:#fff;
+    padding-left:20px;
+    padding-right:20px;
+}
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color:transparent;
+}
+      
+.navbar-custom .navbar-nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: #63ddbe;
+}
+      
+.navbar-custom .navbar-brand {
+    color: #fdffff;
+}
+.navbar-custom .navbar-toggle {
+    background-color:#eeeeee;
+}
+.navbar-custom .icon-bar {
+    background-color: #63ddbe;
+}
 .profile-thumbnail {
     position: absolute;
 }
